@@ -8,7 +8,7 @@ O commit `8c37707` possui uma mensagem com erro de ortografia:
 
 ## Por Que Não Foi Corrigido Automaticamente?
 
-Para corrigir a mensagem de um commit que já foi pusheado para o repositório, é necessário reescrever o histórico do Git usando `git push --force`. Por questões de segurança e para evitar problemas em repositórios compartilhados, as ferramentas automatizadas não podem fazer force push.
+Para corrigir a mensagem de um commit que já foi enviado para o repositório, é necessário reescrever o histórico do Git usando `git push --force`. Por questões de segurança e para evitar problemas em repositórios compartilhados, as ferramentas automatizadas não podem fazer force push.
 
 ## Solução: Passos Manuais
 
@@ -95,7 +95,12 @@ Se preferir **não reescrever o histórico**, você pode simplesmente deixar a m
 Após corrigir, verifique se funcionou:
 
 ```bash
+# Comando multiplataforma (funciona em Windows, Linux e Mac)
+git log --oneline -5
+
+# Alternativa usando pipe (requer ferramentas Unix no Windows)
 git log --oneline | head -5
+
 # Deve mostrar: "Ignoring .idea directories" (com spelling correto)
 # Anteriormente mostrava: "Ignoring .idea directorys" (spelling incorreto)
 ```
