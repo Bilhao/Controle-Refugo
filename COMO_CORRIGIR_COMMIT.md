@@ -95,14 +95,14 @@ Se preferir **não reescrever o histórico**, você pode simplesmente deixar a m
 Após corrigir, verifique se funcionou:
 
 ```bash
-# Comando multiplataforma (funciona em Windows, Linux e Mac)
+# Comando multiplataforma (funciona em Windows, Linux e Mac):
 git log --oneline -5
 
-# Alternativa usando pipe (requer ferramentas Unix no Windows)
+# Alternativa com pipe (requer ferramentas Unix ou WSL no Windows):
 git log --oneline | head -5
 
-# Deve mostrar: "Ignoring .idea directories" (com spelling correto)
-# Anteriormente mostrava: "Ignoring .idea directorys" (spelling incorreto)
+# Deve mostrar: "Ignoring .idea directories" (ortografia correta)
+# Anteriormente mostrava: "Ignoring .idea directorys" (ortografia incorreta)
 ```
 
 ## Precisa de Ajuda?
