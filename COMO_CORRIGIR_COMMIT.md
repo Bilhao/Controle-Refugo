@@ -14,7 +14,7 @@ Para corrigir a mensagem de um commit que já foi pusheado para o repositório, 
 
 Você precisará executar os seguintes comandos **localmente** no seu computador:
 
-### Opção 1: Usar Git Amend (Recomendado)
+### Opção 1: Usar Git Rebase Interativo (Recomendado)
 
 ```bash
 # 1. Clone ou atualize seu repositório local
@@ -24,16 +24,21 @@ cd Controle-Refugo
 # 2. Mude para o branch onde está o commit
 git checkout <nome-do-branch-com-o-commit>
 
-# 3. Encontre o commit com o erro
-git log --oneline | grep ".idea"
+# 3. Inicie um rebase interativo a partir do commit anterior ao commit com erro
+# Como 8c37707 é marcado como "grafted" (primeiro commit), use --root
+git rebase -i --root
 
-# 4. Faça um reset para o commit com erro
-git reset --hard 8c37707
+# 4. No editor que abrir, na linha do commit 8c37707, troque 'pick' por 'reword'
+# Exemplo: mude de "pick 8c37707 Ignoring .idea directorys"
+#          para "reword 8c37707 Ignoring .idea directorys"
 
-# 5. Emende o commit com a mensagem correta
-git commit --amend -m "Ignoring .idea directories"
+# 5. Salve e feche o editor
 
-# 6. Force push (CUIDADO: leia os avisos abaixo antes!)
+# 6. Um novo editor abrirá. Corrija a mensagem para "Ignoring .idea directories"
+
+# 7. Salve e feche o editor. O rebase será concluído.
+
+# 8. Force push (CUIDADO: leia os avisos abaixo antes!)
 git push --force origin <nome-do-branch>
 ```
 
@@ -46,16 +51,17 @@ git filter-branch -f --msg-filter 'sed "s/directorys/directories/"' -- --all
 git push --force --all
 ```
 
-### Opção 3: Usar Git Rebase Interativo
+### Opção 3: Usar Git Amend (Apenas para o Último Commit)
 
 ```bash
-# Se o commit não for o primeiro do histórico
-git rebase -i 8c37707^
+# ATENÇÃO: Este método só funciona se 8c37707 for o commit mais recente (HEAD)
+# Se existem commits depois de 8c37707, use a Opção 1 ou 2
 
-# No editor que abrir, troque 'pick' por 'reword' na linha do commit
-# Salve e feche o editor
-# No próximo editor, corrija a mensagem para "Ignoring .idea directories"
-# Salve e feche
+# Verifique se está no commit correto
+git log --oneline -1
+
+# Se o último commit for o 8c37707, emende a mensagem
+git commit --amend -m "Ignoring .idea directories"
 
 # Force push
 git push --force origin <nome-do-branch>
@@ -90,7 +96,8 @@ Após corrigir, verifique se funcionou:
 
 ```bash
 git log --oneline | head -5
-# Deve mostrar: "Ignoring .idea directories" (sem 's' no final)
+# Deve mostrar: "Ignoring .idea directories" (com spelling correto)
+# Anteriormente mostrava: "Ignoring .idea directorys" (spelling incorreto)
 ```
 
 ## Precisa de Ajuda?
