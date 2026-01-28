@@ -44,10 +44,25 @@ git push --force origin <nome-do-branch>
 
 ### Opção 2: Usar Git Filter-Branch
 
+**⚠️ Nota**: `git filter-branch` está deprecado desde Git 2.5.0. A ferramenta recomendada é `git-filter-repo`. No entanto, filter-branch ainda funciona e está disponível em todas as instalações Git.
+
 ```bash
 # Método alternativo que funciona para múltiplos commits
+
 cd Controle-Refugo
+
+# No Linux/Mac/Git Bash (Windows):
 git filter-branch -f --msg-filter 'sed "s/directorys/directories/"' -- --all
+
+# No Windows PowerShell/CMD (alternativa):
+# Instale Git Bash ou use WSL para executar o comando acima
+
+git push --force --all
+```
+
+**Alternativa moderna**: Se tiver `git-filter-repo` instalado:
+```bash
+git filter-repo --message-callback 'return message.replace(b"directorys", b"directories")'
 git push --force --all
 ```
 
